@@ -1,0 +1,59 @@
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+let users = {};
+const LANGUAGES = [
+  "English","French","Spanish","German","Italian",
+  "Arabic","Japanese","Chinese","Korean","Portuguese",
+  "Russian","Turkish","Dutch","Hindi","Polish",
+  "Swedish","Greek","Hebrew","Thai","Indonesian"
+];
+
+const exercises = {};
+LANGUAGES.forEach(lang=>{
+  exercises[lang] = Array.from({length:100}, (_,i)=>({
+    id: i+1,
+    question: `ترجم كلمة رقم ${i+1} بال${lang}`,
+    answer: `word${i+1}`
+  }));
+});
+
+app.post("/api/register", (req,res)=>{
+  const {email,password} = req.body;
+  if(users[email]) return res.status(400).json({msg:"المستخدم موجود"});
+  users[email] = {email,password,xp:0,level:1,hearts:5,gems:100,premium:false,dailyXP:0};
+  return res.json({msg:"تم إنشاء الحساب"});
+});
+
+app.post("/api/login",(req,res)=>{
+  const {email,password}=req.body;
+  const user = users[email];
+  if(!user || user.password!==password) return res.status(400).json({msg:"خطأ في تسجيل الدخول"});
+  return res.json({msg:"تم تسجيل الدخول",user});
+});
+
+app.get("/api/lesson/:language/:id",(req,res)=>{
+  const {language,id} = req.params;
+  const ex = exercises[language][id-1];
+  if(!ex) return res.status(404).json({msg:"تمرين غير موجود"});
+  res.json(ex);
+});
+
+app.post("/api/premium",(req,res)=>{
+  const {email} = req.body;
+  if(users[email]){
+    users[email].premium = true;
+    return res.json({msg:"تم تفعيل Premium"});
+  }
+  res.status(400).json({msg:"المستخدم غير موجود"});
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT,()=>console.log(`Server running on port ${PORT}`));

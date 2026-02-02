@@ -1,0 +1,16 @@
+async function loadLesson(){
+  const params = new URLSearchParams(window.location.search);
+  const language = params.get("lang");
+  const id = params.get("id");
+  const res = await fetch(`/api/lesson/${language}/${id}`);
+  const data = await res.json();
+  document.body.innerHTML += `<div class="exercise-card"><h2>${data.question}</h2><input id="answer" placeholder="اكتب الإجابة"><button class="button" onclick="checkAnswer('${data.answer}',${id})">تحقق</button><p id="result"></p></div>`;
+}
+function checkAnswer(correct,id){
+  const ans=document.getElementById("answer").value.trim();
+  const result=document.getElementById("result");
+  if(ans===correct){result.textContent="✅ صحيح";currentUser.xp+=10;currentUser.dailyXP+=10;}
+  else{result.textContent="❌ خطأ";currentUser.hearts--; if(currentUser.hearts<=0) alert("انتهت القلوب! اشترك للحصول على قلوب إضافية.");}
+  localStorage.setItem("currentUser",JSON.stringify(currentUser));
+}
+loadLesson();

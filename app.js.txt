@@ -1,0 +1,7 @@
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || {email:"guest",xp:0,level:1,hearts:5,gems:100,premium:false,dailyXP:0};
+function renderStats(){
+  document.getElementById("userStats").innerHTML = `XP:${currentUser.xp} | Level:${currentUser.level} | Hearts:${currentUser.hearts} | Gems:${currentUser.gems} | Daily:${currentUser.dailyXP}`;
+}
+function gainXP(amount){currentUser.xp+=amount; currentUser.dailyXP+=amount; if(currentUser.xp>=currentUser.level*100) currentUser.level++; localStorage.setItem("currentUser",JSON.stringify(currentUser)); renderStats();}
+function startLesson(lang){window.location.href=`lesson.html?lang=${lang}&id=1`;}
+renderStats();

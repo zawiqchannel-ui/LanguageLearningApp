@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>لوحة المستخدم</h1>
+  <div id="userStats"></div>
+  <button class="button" onclick="startLesson('English')">ابدأ درس إنجليزي</button>
+  <button class="button" onclick="buyPremium()">تفعيل Premium</button>
+  <script src="js/app.js"></script>
+  <script src="js/premium.js"></script>
+</body>
+</html>

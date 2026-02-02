@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Language Learning App</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>مرحباً بك في تطبيق تعلم اللغات</h1>
+  <a href="register.html"><button class="button">إنشاء حساب</button></a>
+  <a href="login.html"><button class="button">تسجيل الدخول</button></a>
+</body>
+</html>

@@ -1,0 +1,5 @@
+async function buyPremium(){
+  const res = await fetch("/api/premium",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:currentUser.email})});
+  const data = await res.json();
+  if(data.msg){currentUser.premium=true; localStorage.setItem("currentUser",JSON.stringify(currentUser)); alert("تم تفعيل Premium!");}
+}
